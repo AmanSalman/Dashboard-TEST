@@ -7,12 +7,14 @@ import Books from './components/books/Books.jsx';
 import DeleteBook from './components/books/DeleteBook.jsx';
 import PageNotFound from './components/PageNotFound/PageNotFound.jsx';
 import Home from './components/Home/Home.jsx'
+import AddBook from './components/books/AddBook.jsx';
 export default function App() {
   return (
    <div className='d-flex '>
     <Sidebar/>
     <Routes>
-      <Route path='/' element={<Home/>} />
+      <Route path='/' element={<Home/>}/>
+      <Route path='/books/add' element={<AddBook/>} />
       <Route path='/orders' element={<Orders/>}/>
       <Route path='/books' element={<Books/>}/>
       <Route path='/delete' element={<DeleteBook/>}/>

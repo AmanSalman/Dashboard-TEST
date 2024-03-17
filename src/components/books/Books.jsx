@@ -7,48 +7,45 @@ import '../CSSFiles/order.css';
 import Delete from '../../assets/decline.png';
 import Update from '../../assets/pen.png'
 import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 
 function Books() {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
+ 
+  const fetchBooks = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/book/allbooks`);
-        console.log(response.data);
-        setBooks(response.data.books);
-        setLoading(false);
+        const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/book/allbooks`);
+        console.log(data);
+        return data.books;
+        // setBooks(response.data.books);
       } catch (error) {
-        setError(error.message);
-        setLoading(false);
+        console.log(error);
       }
     };
 
-    fetchBooks();
-  }, []);
+    const {data,isLoading} = useQuery("books", fetchBooks);
+  // useEffect(() => {
+   
 
+  //   fetchBooks();
+  // }, []);
+
+  if (isLoading){
+    return <Loader/>;
+  }
   const DeleteBook = async (BookId) =>{
     try {
-      setLoading(true);
       const response = await axios.delete(`${import.meta.env.VITE_API_URL}/book/deletebook/${BookId}`);
       if (response.data.message == 'success') {
 				toast.success(" Book Deleted successfully");
-				setLoading(false);
 			} 
       // else if (response.data.message == "can't reject the order") {
 			// 	toast.warn(response.data.message);
 			// }
-			setLoading(false);
 		} catch (error) {
 			setError(error.message);
-			setLoading(false);
 		}
-  }
-
-  if (loading){
-    return <Loader/>;
   }
 
 
@@ -56,28 +53,26 @@ function Books() {
     <div className='cssFix'>
       <h2 className='text-uppercase heading text-dark'>Books :</h2>
 
-      {loading && <Loader />}
 
       {error && <p>Error: {error}</p>}
 
-      {!loading && !error && (
+
         <table className="generaltable">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Category </th>
               <th>Title</th>
               <th>description</th>
               <th>publishingHouse</th>
               <th>Price</th>
               <th >Delete</th>
               <th>Update</th>
-              {/* Add more table headers based on your book data structure */}
             </tr>
           </thead>
           <tbody>
-            {books.map((book) => (
+            {data?.map((book) => (
               <tr key={book._id}>
-                <td>{book._id}</td>
+                <td>{book.categoryName}</td>
                 <td>{book.title}</td>
                 <td>{book.description}</td>
                 <td>{book.publishingHouse}</td>
@@ -89,7 +84,6 @@ function Books() {
             ))}
           </tbody>
         </table>
-      )}
     </div>
   );
 }

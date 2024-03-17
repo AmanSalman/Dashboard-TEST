@@ -74,6 +74,10 @@ function Orders() {
 		fetchOrders();
 	}, []);
 
+	if (loading){
+    return <Loader/>;
+  }
+
 	return (
 		<div className='cssFix'>
 			<h2 className='text-uppercase heading text-dark'>Orders :</h2>
