@@ -21,14 +21,15 @@ const commonStyles = {
       fontSize: 16, // adjust font size for consistency
     },
     button: {
-      height: 40,
+      height: 'auto',
       backgroundColor: 'rgb(156, 131, 131)',
       border: 'none',
       borderRadius: 5,
       cursor: 'pointer',
       color:'white',
       fontWeight:700,
-      width:'15%'
+      width:'auto',
+      padding:10
     },
   };
   

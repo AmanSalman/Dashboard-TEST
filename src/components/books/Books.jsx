@@ -26,31 +26,29 @@ function Books() {
 
     const {data,isLoading} = useQuery("books", fetchBooks);
   // useEffect(() => {
-   
-
   //   fetchBooks();
   // }, []);
 
   if (isLoading){
     return <Loader/>;
   }
-  const DeleteBook = async (BookId) =>{
-    try {
-      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/book/deletebook/${BookId}`);
-      if (response.data.message == 'success') {
-				toast.success(" Book Deleted successfully");
-			} 
-      // else if (response.data.message == "can't reject the order") {
-			// 	toast.warn(response.data.message);
-			// }
-		} catch (error) {
-			setError(error.message);
-		}
-  }
+  // const DeleteBook = async (BookId) =>{
+  //   try {
+  //     const response = await axios.delete(`${import.meta.env.VITE_API_URL}/book/deletebook/${BookId}`);
+  //     if (response.data.message == 'success') {
+	// 			toast.success(" Book Deleted successfully");
+	// 		} 
+  //     // else if (response.data.message == "can't reject the order") {
+	// 		// 	toast.warn(response.data.message);
+	// 		// }
+	// 	} catch (error) {
+	// 		setError(error.message);
+	// 	}
+  // }
 
 
   return (
-    <div className='cssFix'>
+    <div className='cssFix table-container'>
       <h2 className='text-uppercase heading text-dark'>Books :</h2>
 
 
@@ -77,9 +75,8 @@ function Books() {
                 <td>{book.description}</td>
                 <td>{book.publishingHouse}</td>
                 <td>{book.price}</td>
-                <td><Link className='d-flex justify-content-center' onClick={()=>DeleteBook(book._id)}><img src={Delete} alt='Delete' width={"45px"} /></Link></td>
+                <td><Link className='d-flex justify-content-center' to={`/delete/${book._id}`}><img src={Delete} alt='Delete' width={"45px"} /></Link></td>
              <td><Link to='/Update' className='d-flex justify-content-center'><img src={Update} alt='Update' width={"30px"} /></Link></td>
-                {/* Add more table cells based on your book data structure */}
               </tr>
             ))}
           </tbody>

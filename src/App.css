@@ -1,14 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
-body,html, * {
-    
-}
+
 
 .heading {
 	margin: 1em 0 0.5em 0;
 	font-weight: 600;
 	position: relative;
 	text-shadow: 0 -1px 1px rgba(248, 248, 248, 0.4);
-	font-size: 22px;
+	font-size: 1.5em;
 	line-height: 40px;
 	color: #355681;
 	text-transform: uppercase;
@@ -16,7 +14,50 @@ body,html, * {
 	font-family: Lora;
 }
 
+.secondary-heading {
+    font-size: 1.3em;
+    color: rgb(119, 91, 91);
+	font-family:Lora ;
+}
 
 Link {
     text-decoration: none;
 }
+.sidebarFlex{
+	 display: flex ;
+	 flex-direction: column;
+	 align-items: center;
+	 justify-content: center;
+
+}
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+	.sidebarFlex{
+		padding-right: 0px !important;
+		padding-left: 0px !important;
+		min-height:auto  !important;
+		padding: 20px;
+	}
+	.LogoDropdown{
+		justify-content: center;
+	}
+	.LogoDropdown img {
+		margin-bottom: 20px;
+	}
+	.fixWrapSmall{
+		flex-wrap: wrap;
+	}
+	.table-container {
+		overflow-x: auto;
+	  }
+	  .col-auto {
+		/* Resetting the styles to their default values */
+		flex: unset !important; /* or unset */
+		width: auto !important;
+	}
+
+	input, textarea {
+		width: 100% !important;
+	}
+	
+  }
+  
