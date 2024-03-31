@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import commonStyles from '../books/commonStyles.js';
 import '../CSSFiles/general.css';
 import './Register.css';
@@ -8,30 +8,33 @@ import Loader from '../Loader/Loader.jsx';
 import {toast} from 'react-toastify';
 import {Link, useNavigate} from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
+import { UserContext } from '../context/User.jsx';
 
-const Register = () => {
+const Login = () => {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+    let {user,setUser} = useContext(UserContext);
+    if(user){
+        navigate(-1);
+    }
 	const initialValues = {
-		name: '',
-		phone: '',
 		email: '',
 		password: '',
-		role: 'admin'
 	};
 
 	const onSubmit = async (admin, {resetForm}) => {
 		console.log(admin)
 		try {
 			setLoading(true);
-			const {data} = await axios.post(`${
-				import.meta.env.VITE_API_URL
-			}/auth/register`, admin);
-			console.log(data);
+			const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signIn`, admin);
+            setUser(data.token);
+			console.log(user);
 			if (data.message == 'success') {
-				toast.success("registered successfully");
-				// navigate('/login');
-				resetForm();
+                localStorage.setItem("userToken", data.token);
+                console.log(localStorage.getItem("userToken"))
+				toast.success("Login successfully");
+                resetForm();
+				navigate('/');
 				setLoading(false);
 			}
 			setLoading(false)
@@ -49,7 +52,7 @@ const Register = () => {
 			loading ? (
 				<Loader/>) : <>
 
-					<div className='d-flex justify-content-center align-items-center vh-100 flex-item-registration' style={{backgroundColor:'antiquewhite'}}>
+					<div className='d-flex justify-content-center align-items-center vh-100 flex-item-registration flex-wrap' style={{backgroundColor:'antiquewhite'}}>
 
 						<img src={Logo}
 							alt='logo'
@@ -62,7 +65,7 @@ const Register = () => {
 									margin: '1em'
 								}
 							}/>
-							<div className='mediaQheader'> 
+							<div>
 
 						<h1 className='HeadingRegister'>Hello Again!</h1>
 						<h2 className='subHeading'>Welcome back</h2>
@@ -70,9 +73,9 @@ const Register = () => {
 					</div>
 
 					{/* <h2 className='text-uppercase heading text-dark'>Register :</h2> */}
-                    <div className='flex-item-registration1 flex-grow-1'>
-					<div className='text-center'>
-                        <h2 className='maincolortext'>Register</h2>
+                    <div className='flex-item-registration flex-grow-1'>
+                        <div className='text-center'>
+                        <h2 className='maincolortext'>Sign in</h2>
                         </div>
                        <form onSubmit={
 							formik.handleSubmit
@@ -81,32 +84,7 @@ const Register = () => {
 							styles.container
 						}
 						>
-						<input type="text"
-							value={
-								formik.values.name
-							}
-							onChange={
-								formik.handleChange
-							}
-							placeholder="name"
-							style={
-								styles.input
-							}
-							id="name"
-							name="name"/>
-						<input type="tel"
-							value={
-								formik.values.phone
-							}
-							onChange={
-								formik.handleChange
-							}
-							placeholder="phone"
-							style={
-								styles.input
-							}
-							id="phone"
-							name="phone"/>
+
 						<input type="email"
 							value={
 								formik.values.email
@@ -133,14 +111,18 @@ const Register = () => {
 							}
 							id="password"
 							name="password"/>
-							<div className='d-flex'>
-							 <span className='text-black mb-3 me-1'>already have an accout? </span> 
-             <Link className='maincolortext' to='/login'>Sign in</Link>
-							</div>
+                            <div className='d-flex flex-column align-items-center'>
+                                <div className='d-flex'>
+             <span className='text-black me-1'>You don't have an accout?  </span> 
+             <Link className='maincolortext' to='/register'>Create One.</Link>
+                                </div>
+             <Link className='maincolortext mb-3' to='/register'>Forget Password?</Link>
+
+                            </div>
 						<button type="submit"
 							style={
 								styles.button
-						} className='buttonColor'>Register</button>
+						} className='buttonColor '>Sign in</button>
 					</form> 
                     </div>
 					
@@ -159,4 +141,4 @@ const styles = {
 	}
 };
 
-export default Register;
+export default Login;

@@ -16,9 +16,10 @@ const commonStyles = {
       width: '60%',
       marginBottom: 20,
       padding: '0 10px',
-      border: '1px solid rgba(53,86,129, 0.3)',
-      borderRadius: 10,
-      fontSize: 16, // adjust font size for consistency
+      border: 'none',
+      borderBottom: '1px solid #ccc',
+      fontSize: 16,
+      outline:'none'
     },
     button: {
       height: 'auto',

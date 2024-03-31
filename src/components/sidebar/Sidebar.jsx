@@ -6,7 +6,7 @@ import '../../App.css';
 const Sidebar = () => {
 	return (
 		<div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-			<div className="sidebarFlex align-items-sm-start px-3 pt-2 text-white min-vh-100">
+			<div className="sidebarFlex align-items-sm-start px-3 pt-2 text-white min-vh-100 ">
 				<Link to="/" className="d-flex align-items-center pb-3 gap-2 mb-md-0 me-md-auto text-white text-decoration-none LogoDropdown">
 					<img src={Logo}
 						alt='logo'
@@ -28,7 +28,7 @@ const Sidebar = () => {
 						</a>
 						<ul className="dropdown-menu dropdown-menu-dark text-small shadow">
 							<li>
-								<a className="dropdown-item" href="#">Profile</a>
+								<Link className="dropdown-item" to='/profile'>Profile</Link>
 							</li>
 							<li>
 								<hr className="dropdown-divider"/>

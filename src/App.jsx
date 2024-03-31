@@ -9,43 +9,69 @@ import DeleteBook from './components/books/DeleteBook.jsx';
 import AddBook from './components/books/AddBook.jsx';
 import AcceptOrder from './components/orders/AcceptOrder.jsx'
 import RejectOrder from './components/orders/RejectOrder.jsx';
+import Home from './components/Home/Home.jsx';
+import Profile from './components/profile/Profile.jsx';
+import Register from './components/Register/Register.jsx'
+import Login from './components/Register/Login.jsx';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
+import UserContextProvider from './components/context/User.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root/>,
+    element: <ProtectedRoute>
+      <Root/>
+    </ProtectedRoute>,
     children:[
       {
-        path:'books',
+        path:'/',
+        element:<Home/>
+      },
+      {
+        path:'/books',
         element:<Books/>,
       },
       {
-        path:'addbook',
+        path:'/addbook',
         element:<AddBook/>
       },
       {
-        path:'delete/:id',
+        path:'/delete/:id',
         element:<DeleteBook/>
       },
       {
-        path:'orders',
+        path:'/orders',
         element:<Orders/>
       },
       {
-        path:'acceptOrder/:orderId',
+        path:'/acceptOrder/:orderId',
         element:<AcceptOrder/>
       },
       {
-        path:'rejectOrder/:orderId',
+        path:'/rejectOrder/:orderId',
         element:<RejectOrder/>
-      }
+      },
+      {
+        path:'/profile',
+        element:<Profile/>
+      },
     ]
   },
+   {
+        path:'/register',
+        element:<Register/>
+      },
+      {
+        path:'/login',
+        element:<Login/>
+      }
 ]);
 
 export default function App() {
   return (
 
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
 
   
   )
