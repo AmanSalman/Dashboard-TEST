@@ -28,9 +28,9 @@ const Login = () => {
 			setLoading(true);
 			const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signIn`, admin);
 			if (data.message == 'success') {
-                localStorage.setItem("userToken", data.token);
+                localStorage.setItem("userToken", `Aman__${data.token}`);
 				setUser(data.token);
-                console.log(user)
+                console.log(localStorage.getItem("userToken"))
 				toast.success("Login successfully");
                 resetForm();
 				navigate('/');
