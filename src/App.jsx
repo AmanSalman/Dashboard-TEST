@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import './App.css';
 import Root from './components/routes/Root.jsx';
 import Books from './components/books/Books.jsx'; 
 import Orders from './components/orders/Orders.jsx'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
 import "./index.css";
 import DeleteBook from './components/books/DeleteBook.jsx';
 import AddBook from './components/books/AddBook.jsx';
@@ -14,7 +14,19 @@ import Profile from './components/profile/Profile.jsx';
 import Register from './components/Register/Register.jsx'
 import Login from './components/Register/Login.jsx';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
-import UserContextProvider from './components/context/User.jsx';
+import UserContextProvider, { UserContext } from './components/context/User.jsx';
+
+
+export default function App() {
+
+  let {setUser} = useContext(UserContext);
+  useEffect(()=>{
+    if(localStorage.getItem("userToken")!= null){
+      setUser(localStorage.getItem("userToken"))
+    } 
+  },[]);
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -65,13 +77,10 @@ const router = createBrowserRouter([
         element:<Login/>
       }
 ]);
-
-export default function App() {
   return (
 
-    <UserContextProvider>
+
       <RouterProvider router={router} />
-    </UserContextProvider>
 
   
   )

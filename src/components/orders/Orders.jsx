@@ -153,7 +153,7 @@
 // }
 
 // export default Orders;
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../CSSFiles/general.css';
 import '../CSSFiles/order.css'
@@ -163,18 +163,15 @@ import Accept from '../../assets/accept (2).png';
 import Reject from '../../assets/decline.png';
 import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
+import { UserContext } from '../context/User.jsx';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
-
+    const {user} = useContext(UserContext);
     const fetchOrders = async () => {
         try {
-            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/order/getAllOrders`, {
-                headers: {
-                    Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWViNDMzZmRiODBjYmJiZDdhZDY2NDciLCJyb2xlIjoidXNlciIsImlhdCI6MTcxMDI4NDgxNSwiZXhwIjoxNzEwMjg4NDE1fQ.4E-_7k48EznQMnno9DWoJu1u-mobRSgDVETu8JTx8SQ`
-                }
-            });
+            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/order/getAllOrders`,{headers:{Authorization: `Aman__${user}`}} );
             return data.orders;
         } catch (error) {
             setError(error.message);

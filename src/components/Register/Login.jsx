@@ -27,11 +27,10 @@ const Login = () => {
 		try {
 			setLoading(true);
 			const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signIn`, admin);
-            setUser(data.token);
-			console.log(user);
 			if (data.message == 'success') {
                 localStorage.setItem("userToken", data.token);
-                console.log(localStorage.getItem("userToken"))
+				setUser(data.token);
+                console.log(user)
 				toast.success("Login successfully");
                 resetForm();
 				navigate('/');

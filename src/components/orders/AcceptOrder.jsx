@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../Loader/Loader.jsx';
 import axios from 'axios';
+import { UserContext } from '../context/User.jsx';
 
 function AcceptOrder() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const {orderId} = useParams();
+    const {user} = useContext(UserContext);
     const AcceptOrder = async () => {
         try {
+
             setLoading(true);
-            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/order/AcceptOrder/${orderId}`);
-            console.log(data.message)
+            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/order/AcceptOrder/${orderId}`,{}, {headers:{Authorization: `Aman__${user}`,}}); 
             if (data.message == 'success') {
                 toast.success("Accepted successfully");
                 setLoading(false);
@@ -23,7 +25,6 @@ function AcceptOrder() {
             }
             setLoading(false);
         } catch (error) {
-            console.log(error)
             setError(error.message);
             setLoading(false);
         }
@@ -43,4 +44,4 @@ function AcceptOrder() {
 
 }
 
-export default AcceptOrder
+export default AcceptOrder;

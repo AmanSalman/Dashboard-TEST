@@ -5,19 +5,58 @@ import Loader from '../Loader/Loader.jsx';
 import { UserContext } from '../context/User.jsx';
 
 const Profile = () => {
-  let {userData} = useContext(UserContext);// contain the user data from the context
+  let {userData} = useContext(UserContext);// contain the user token
+  const [error, setError] = useState(null);
   const [isloading, setloading] = useState(true);
- 
+  // const [userData, setProfileData]= useState(null);
+  // const fetchProfile = async () => { 
+  //   try {
+  //     const User = localStorage.getItem("userToken");
+  //     const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, {
+  //       headers: {
+  //         Authorization: `Aman__${User}`
+  //       },
+  //     });
+  //     console.log(data);
+  //     setProfileData(data.user);
+  //     if(data.message == 'success'){
+
+  //       setloading(false);
+  //     }
+  //   } catch (error) {
+  //     setError(error.message);
+  //     setloading(false);
+
+  //   }
+  // };
+
   useEffect(()=>{
     if(userData){
-      setTimeout(() => {
-        setloading(false);
-      }, 3000);
+      setloading(false)
     }
   },[])
 
-  return (
+  if(isloading){
+    return <Loader/>;
+  }
+  // useEffect(() => {
+  //   fetchProfile();
+  // }, []);
 
+  return (
+    // <div className="profile-container cssFix">
+    //   <h2>User Profile</h2>
+    //   {profileData ? (
+    //     <div className="profile-info">
+    //       <p><strong>Name:</strong> {profileData.name}</p>
+    //       <p><strong>Email:</strong> {profileData.email}</p>
+    //       <p><strong>Phone:</strong> {profileData.phone}</p>
+    //     </div>
+    //   ) : (
+    //     <></>
+    //   )}
+    //   {error && <p className="error">Error: {error}</p>}
+    // </div> 
    <div className="container rounded bg-white mt-5 mb-5">
  {
   isloading?(<Loader/>) : (
@@ -48,7 +87,7 @@ const Profile = () => {
           <div className="col-md-6"><label className="labels">Country</label><input type="text" className="form-control" placeholder="country" defaultValue /></div>
           <div className="col-md-6"><label className="labels">State/Region</label><input type="text" className="form-control" defaultValue placeholder="state" /></div>
         </div>
-        {/* <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div> */}
+        <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div>
       </div>
     </div>
   </div>

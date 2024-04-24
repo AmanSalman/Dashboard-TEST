@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import {BrowserRouter} from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import UserContextProvider from './components/context/User.jsx'
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <QueryClientProvider client={queryClient}>
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   // </BrowserRouter>
   // </QueryClientProvider>
   <QueryClientProvider client={queryClient}>
+        <UserContextProvider>
+           <App/>
+        </UserContextProvider>
   <ToastContainer/>
-  <App/>
   </QueryClientProvider>
 )

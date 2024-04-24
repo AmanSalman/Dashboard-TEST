@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Link} from 'react-router-dom';
 import Logo from '../../assets/Logo.png'
 import '../CSSFiles/SideBar.css'
 import '../../App.css';
+import { UserContext } from '../context/User.jsx';
 const Sidebar = () => {
+	let {user,setUser,userData,setUserData} = useContext(UserContext);
+	const logout = ()=> {
+		localStorage.removeItem("userToken");
+		setUser(null)
+		setUserData(null)
+		navigate('/login');
+	  }
+
+	  
+
 	return (
 		<div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
 			<div className="sidebarFlex align-items-sm-start px-3 pt-2 text-white min-vh-100 ">
@@ -18,12 +29,8 @@ const Sidebar = () => {
 							}
 						}/>
 
-					<div className="dropdown">
+					{/* <div className="dropdown">
 						<a href="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-							{/* <img src='' alt="hugenerd"
-									width={30}
-									height={30}
-									className="rounded-circle"/> */}
 							<span className="d-none d-sm-inline mx-1">User</span>
 						</a>
 						<ul className="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -34,10 +41,11 @@ const Sidebar = () => {
 								<hr className="dropdown-divider"/>
 							</li>
 							<li>
-								<Link className="dropdown-item" to='/register'>Register</Link>
+								<Link className="dropdown-item" onClick={logout}>logout</Link>
 							</li>
 						</ul>
-					</div>
+					</div> */}
+					
 				</Link>
 
 

@@ -33,7 +33,7 @@ const Register = () => {
 				// navigate('/login');
 				resetForm();
 				setLoading(false);
-			}
+			} 
 			setLoading(false)
 		} catch (error) {
 			setLoading(false)
