@@ -15,6 +15,9 @@ import Register from './components/Register/Register.jsx'
 import Login from './components/Register/Login.jsx';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
 import UserContextProvider, { UserContext } from './components/context/User.jsx';
+import User from './components/users/User.jsx';
+import AddCategory from './components/category/AddCategory.jsx';
+import Category from './components/category/Category.jsx';
 
 
 export default function App() {
@@ -66,6 +69,18 @@ const router = createBrowserRouter([
         path:'/profile',
         element:<Profile/>
       },
+      {
+        path:'/users',
+        element:<User/>
+      },
+      {
+        path:'/addCategory',
+        element:<AddCategory/>
+      },
+      {
+        path:'/categories',
+        element:<Category/>
+      }
     ]
   },
    {

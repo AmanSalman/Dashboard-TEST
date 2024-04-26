@@ -170,7 +170,7 @@ const AddBook = () => {
         <div className='cssFix w-100'>
             {loading? (<Loader />) :
             <>
-            <h2 className='text-uppercase heading text-dark'>ADD Books :</h2>
+            <h2 className='text-uppercase heading text-dark'>ADD Book :</h2>
             <form onSubmit={formik.handleSubmit} style={styles.container}>
                 <input
                     type="text"

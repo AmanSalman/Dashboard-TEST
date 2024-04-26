@@ -156,7 +156,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../CSSFiles/general.css';
-import '../CSSFiles/order.css'
+import '../CSSFiles/order.css';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader/Loader.jsx';
 import Accept from '../../assets/accept (2).png';
@@ -171,7 +171,7 @@ function Orders() {
     const {user} = useContext(UserContext);
     const fetchOrders = async () => {
         try {
-            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/order/getAllOrders`,{headers:{Authorization: `Aman__${user}`}} );
+            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/order/getAllOrders`,{headers:{Authorization: `${user}`}} );
             return data.orders;
         } catch (error) {
             setError(error.message);
@@ -185,7 +185,7 @@ function Orders() {
     }
 
     return (
-        <div className='cssFix table-container'>
+        <div className='cssFix table-container '>
             <h2 className='text-uppercase heading text-dark'>Orders :</h2>
 
             {

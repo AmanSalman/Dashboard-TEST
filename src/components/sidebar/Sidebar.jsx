@@ -29,7 +29,7 @@ const Sidebar = () => {
 							}
 						}/>
 
-					{/* <div className="dropdown">
+					<div className="dropdown">
 						<a href="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
 							<span className="d-none d-sm-inline mx-1">User</span>
 						</a>
@@ -44,7 +44,7 @@ const Sidebar = () => {
 								<Link className="dropdown-item" onClick={logout}>logout</Link>
 							</li>
 						</ul>
-					</div> */}
+					</div>
 					
 				</Link>
 
@@ -74,6 +74,37 @@ const Sidebar = () => {
 									<span className="d-sm-inline dropDownStyling">Add Books</span>
 								</Link>
 							</li>
+
+							
+						</ul>
+					</li>
+
+					<li className="nav-item">
+						<Link to="/users" className="nav-link px-0 align-middle text-decoration-none">
+							<i className="fs-4 bi-table"/>
+							<span className="ms-1 d-sm-inline items-styling">Manage Users</span>
+						</Link>
+					</li>
+
+					<li className="nav-item">
+						<a href="#submenu4" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
+							<i className="fs-4 bi-grid"/>
+							<span className="ms-1 d-sm-inline items-styling">Manage Categories</span>
+						</a>
+						<ul className="collapse nav flex-column g-1 ms-1" id="submenu4" data-bs-parent="#menu">
+							<li>
+								<Link to="/categories" className="nav-link px-0">
+									<span className="d-sm-inline dropDownStyling">
+										Categories</span>
+								</Link>
+							</li>
+							<li>
+								<Link to="/addCategory" className="nav-link px-0">
+									<span className="d-sm-inline dropDownStyling">Add Categories</span>
+								</Link>
+							</li>
+
+							
 						</ul>
 					</li>
 
