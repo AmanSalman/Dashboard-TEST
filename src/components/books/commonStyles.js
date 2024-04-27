@@ -23,12 +23,12 @@ const commonStyles = {
     },
     button: {
       height: 'auto',
-      backgroundColor: 'rgb(156, 131, 131)',
+      backgroundColor: '#2b3447',
       border: 'none',
       borderRadius: 5,
       cursor: 'pointer',
-      color:'white',
-      fontWeight:700,
+      color:'#c1c4c9',
+      fontWeight:400,
       width:'auto',
       padding:10
     },

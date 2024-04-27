@@ -49,7 +49,7 @@ function Category() {
 
   return (
     <div className='cssFix table-container'>
-      <h2 className='text-uppercase heading text-dark'>Categories :</h2>
+      <h2 className='text-uppercase heading'>Categories :</h2>
 
 
       {error && <p>Error: {error}</p>}

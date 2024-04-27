@@ -31,7 +31,7 @@ function User() {
 
     return (
         <div className='cssFix table-container '>
-            <h2 className='text-uppercase heading text-dark'>Users :</h2>
+            <h2 className='text-uppercase heading'>Users :</h2>
 
             {
                 isLoading && <Loader />

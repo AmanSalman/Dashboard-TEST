@@ -6,7 +6,9 @@ function Root() {
   return (
     <div className='d-flex fixWrapSmall'>
     <Sidebar/>
+    <div className=' flex-grow-1'>
     <Outlet/>
+    </div>
     </div>
   )
 }

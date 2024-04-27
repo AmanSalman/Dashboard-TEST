@@ -37,7 +37,7 @@ function AddCategory() {
         <div className='cssFix w-100'>
             {loading? (<Loader />) :
             <>
-            <h2 className='text-uppercase heading text-dark'>ADD Category :</h2>
+            <h2 className='text-uppercase heading'>ADD Category :</h2>
             <form onSubmit={formik.handleSubmit} style={styles.container}>
                 <input
                     type="text"

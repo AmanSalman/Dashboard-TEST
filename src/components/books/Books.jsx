@@ -49,7 +49,7 @@ function Books() {
 
   return (
     <div className='cssFix table-container'>
-      <h2 className='text-uppercase heading text-dark'>Books :</h2>
+      <h2 className='text-uppercase heading'>Books :</h2>
 
 
       {error && <p>Error: {error}</p>}

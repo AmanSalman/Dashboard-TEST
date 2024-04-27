@@ -186,7 +186,7 @@ function Orders() {
 
     return (
         <div className='cssFix table-container '>
-            <h2 className='text-uppercase heading text-dark'>Orders :</h2>
+            <h2 className='text-uppercase heading'>Orders :</h2>
 
             {
                 isLoading && <Loader />
@@ -199,7 +199,7 @@ function Orders() {
             {
                 !isLoading && !error && (
                     <>
-                        <h3 className='text-uppercase secondary-heading'>Pending Orders :</h3>
+                        <h3 className='secondary-heading'>Pending Orders :</h3>
                         <table className='generaltable'>
                             <thead>
                                 <tr>
@@ -236,7 +236,7 @@ function Orders() {
                             </tbody>
                         </table>
 
-                        <h3 className='text-uppercase secondary-heading '>Accepted Orders :</h3>
+                        <h3 className='secondary-heading '>Accepted Orders :</h3>
                         <table className='generaltable'>
                             <thead>
                                 <tr>
@@ -260,7 +260,7 @@ function Orders() {
                             </tbody>
                         </table>
 
-                        <h3 className='text-uppercase secondary-heading'>Rejected Orders :</h3>
+                        <h3 className='secondary-heading'>Rejected Orders :</h3>
                         <table className='generaltable'>
                             <thead>
                                 <tr>

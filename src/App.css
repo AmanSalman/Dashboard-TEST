@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
 body{
-	font-family: Lora;
+	font-family: "Montserrat", sans-serif; 
 }
 .heading {
 	margin: 1em 0 0.5em 0;
@@ -10,7 +10,7 @@ body{
 	text-shadow: 0 -1px 1px rgba(248, 248, 248, 0.4);
 	font-size: 1.5em;
 	line-height: 40px;
-	color: #355681;
+	color: #2b3447;
 	text-transform: uppercase;
 	border-bottom: 1px solid rgba(53,86,129, 0.3);
 	font-family: Lora;
@@ -18,12 +18,12 @@ body{
 
 .secondary-heading {
     font-size: 1.3em;
-    color: rgb(119, 91, 91);
+    color: #5f676e ;
 	font-family:Lora ;
 }
 
 .dropdown a {
-	color: rgb(156, 131, 131) !important;
+	color: #c1c4c9 !important;
 }
 
 Link {
@@ -66,3 +66,23 @@ Link {
 	}
   }
   
+
+  /* Side Bar */
+  .items-styling , .dropDownStyling{
+	color: #c1c4c9;
+	font-family: "Montserrat", "helvetica neue", Arial, sans-serif;
+	text-transform: uppercase;
+	line-height: 30px !important;
+	font-size: 12px !important;
+  }
+  
+  .nav-link {
+	border-radius: .6em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+	margin-bottom: 1em; 
+  }
+  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	  background-color: #5f676e !important;
+}
+
