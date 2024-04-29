@@ -1,0 +1,27 @@
+.stats-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    height: 200px;
+  }
+
+  .stats-card__title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .stats-card__number {
+    font-size: 32px;
+    color: #333;
+  }
+
+  .stats-card__change {
+    font-size: 14px;
+    color: #888;
+  }

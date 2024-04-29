@@ -18,6 +18,8 @@ import UserContextProvider, { UserContext } from './components/context/User.jsx'
 import User from './components/users/User.jsx';
 import AddCategory from './components/category/AddCategory.jsx';
 import Category from './components/category/Category.jsx';
+import Update from './components/books/UpdateBook.jsx';
+import UpdateBook from './components/books/UpdateBook.jsx';
 
 
 export default function App() {
@@ -48,6 +50,10 @@ const router = createBrowserRouter([
       {
         path:'/addbook',
         element:<AddBook/>
+      },
+      {
+        path:'/Update/:id',
+        element:<UpdateBook/>
       },
       {
         path:'/delete/:id',

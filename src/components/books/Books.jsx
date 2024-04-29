@@ -8,6 +8,7 @@ import Delete from '../../assets/decline.png';
 import Update from '../../assets/pen.png'
 import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
+import UpdateBook from './UpdateBook.jsx';
 
 function Books() {
   // const [books, setBooks] = useState([]);
@@ -77,7 +78,7 @@ function Books() {
                 <td>{book.publishingHouse}</td>
                 <td>{book.price}</td>
                 <td><Link className='d-flex justify-content-center' to={`/delete/${book._id}`}><img src={Delete} alt='Delete' width={"45px"} /></Link></td>
-             <td><Link to='/Update' className='d-flex justify-content-center'><img src={Update} alt='Update' width={"30px"} /></Link></td>
+             <td><Link to={`/Update/${book._id} `} onClick={()=>UpdateBook(book)} className='d-flex justify-content-center'><img src={Update} alt='Update' width={"30px"} /></Link></td>
               </tr>
             ))}
           </tbody>

@@ -4,6 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { useContext} from 'react';
 import {OrderContext} from '../context/OrderContext.jsx'
 import Loader from '../Loader/Loader.jsx';
+import StatsCard from '../shared/StatsCard.jsx';
 function Home() {
   ChartJS.register(ArcElement, Tooltip, Legend);
   const {AcceptedCount,RejectedCount,orders} = useContext(OrderContext)
@@ -27,10 +28,24 @@ function Home() {
   return (
     <div className="position-relative cssFix homeBackground h-100">
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <div style={{display:'flex', gap:'2em',marginBottom:'1em' }}>
+        <div>
+        <StatsCard title="Today's Users" number={2300} change="3% than last month" />
+        </div>
+        <div>
+      <StatsCard title="Active Sessions" number={150} />
+      </div> 
+      <div>
+      <StatsCard title="Active Sessions" number={150} />
+      </div>
+      <div>
+      <StatsCard title="Active Sessions" number={150} />
+      </div>    
+        </div>
+      </div>
         <div style={{ width: 'fit-content', borderRadius: 10, padding: 10, background: 'white' }}>
           <Doughnut data={data} />
         </div>
-      </div>
     </div>
   );
 }
