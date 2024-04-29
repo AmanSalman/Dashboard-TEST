@@ -15,7 +15,7 @@ function AcceptOrder() {
         try {
 
             setLoading(true);
-            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/order/AcceptOrder/${orderId}`,{}, {headers:{Authorization: `Aman__${user}`,}}); 
+            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/order/AcceptOrder/${orderId}`,{}, {headers:{Authorization: `${user}`,}}); 
             if (data.message == 'success') {
                 toast.success("Accepted successfully");
                 setLoading(false);

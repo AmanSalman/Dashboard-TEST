@@ -3,8 +3,6 @@ const commonStyles = {
     container: {
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
       padding: 20,
     //   backgroundColor: '#F8FAFD',
       borderRadius: 10,
@@ -14,10 +12,11 @@ const commonStyles = {
     input: {
       height: 40,
       width: '60%',
-      marginBottom: 20,
+      marginBottom: 10,
       padding: '0 10px',
-      border: 'none',
-      borderBottom: '1px solid #ccc',
+      borderRadius:5,
+      // border: 'none',
+      border: '1px solid #ccc',
       fontSize: 16,
       outline:'none'
     },
@@ -29,8 +28,9 @@ const commonStyles = {
       cursor: 'pointer',
       color:'#c1c4c9',
       fontWeight:400,
-      width:'auto',
-      padding:10
+      width:'fit-content',
+      padding:10,
+      marginLeft:10
     },
   };
   

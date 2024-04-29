@@ -1,52 +1,28 @@
-import axios from 'axios';
-import './Home.css'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../context/User.jsx';
-import { useQuery } from 'react-query';
-
+import './Home.css';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+import { useContext} from 'react';
+import {OrderContext} from '../context/OrderContext.jsx'
+import Loader from '../Loader/Loader.jsx';
 function Home() {
   ChartJS.register(ArcElement, Tooltip, Legend);
-  const [error, setError] = useState(null);
-  const {user} = useContext(UserContext);
-
-  const { data: acceptedData, isLoading: acceptedLoading, error: acceptedError } = useQuery("Accepted", async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/order/acceptedOrders`, { headers: { Authorization: `${user}` } });
-      return data.AcceptedOrders;
-    } catch (error) {
-      setError(error);
-    }
-  });
-
-  const { data: rejectedData, isLoading: rejectedLoading, error: rejectedError } = useQuery("Rejected", async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/order/RejectedOrders`, { headers: { Authorization: `${user}` } });
-      return data.RejectedOrders;
-    } catch (error) {
-      setError(error);
-    }
-  });
-
+  const {AcceptedCount,RejectedCount,orders} = useContext(OrderContext)
+  if(!orders.length){
+    return <Loader/>
+  }
   const data = {
     labels: ['Accepted Orders', 'Rejected Orders'],
     datasets: [
       {
-        label: '# of Votes',
-        data: [acceptedData || 0, rejectedData || 0],
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.7)', // Green for accepted orders
-          'rgba(255, 99, 132, 0.7)', // Red for rejected orders
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)', // Darker green
-          'rgba(255, 99, 132, 1)', // Darker red
-        ],
+        label: '# of Orders',
+        data: [AcceptedCount || 0, RejectedCount || 0],
+        backgroundColor: ['rgba(75, 192, 192, 0.7)', 'rgba(255, 99, 132, 0.7)'],
+        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
         borderWidth: 1.5,
       },
     ],
   };
+
 
   return (
     <div className="position-relative cssFix homeBackground h-100">

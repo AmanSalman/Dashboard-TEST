@@ -164,33 +164,21 @@ import Reject from '../../assets/decline.png';
 import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
 import { UserContext } from '../context/User.jsx';
+import { OrderContext } from '../context/OrderContext.jsx';
 
 function Orders() {
-    const [orders, setOrders] = useState([]);
-    const [error, setError] = useState(null);
+    //const [orders, setOrders] = useState([]);
+    const {orders,error, setError} = useContext(OrderContext);
+    const [isLoading, setIsLoading]= useState(false)
     const {user} = useContext(UserContext);
-    const fetchOrders = async () => {
-        try {
-            const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/order/getAllOrders`,{headers:{Authorization: `${user}`}} );
-            return data.orders;
-        } catch (error) {
-            setError(error.message);
-        }
-    };
 
-    const {data,isLoading} = useQuery("orders", fetchOrders);
-
-    if (isLoading) {
-        return <Loader />;
-    }
-
+    if (!orders.length) {
+        return <Loader />; // Display loader if orders are being fetched
+      }
     return (
-        <div className='cssFix table-container '>
+        <div className='cssFix table-container' style={{background: 'white',
+            borderRadius: '18px'}} >
             <h2 className='text-uppercase heading'>Orders :</h2>
-
-            {
-                isLoading && <Loader />
-            }
 
             {
                 error && <p>Error: {error}</p>
@@ -213,7 +201,7 @@ function Orders() {
                             </thead>
                             <tbody>
                                 {
-                                    data?.filter(order => order.status === 'Pending').map((order) => (
+                                    orders?.filter(order => order.status === 'Pending').map((order) => (
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
                                             <td>{order.location}</td>
@@ -248,7 +236,7 @@ function Orders() {
                             </thead>
                             <tbody>
                                 {
-                                    data?.filter(order => order.status === 'Accepted').map((order) => (
+                                    orders?.filter(order => order.status === 'Accepted').map((order) => (
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
                                             <td>{order.location}</td>
@@ -272,7 +260,7 @@ function Orders() {
                             </thead>
                             <tbody>
                                 {
-                                    data?.filter(order => order.status === 'Rejected').map((order) => (
+                                    orders?.filter(order => order.status === 'Rejected').map((order) => (
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
                                             <td>{order.location}</td>

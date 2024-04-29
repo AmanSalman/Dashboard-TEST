@@ -8,12 +8,13 @@ import { FaTruck, FaUsers } from "react-icons/fa";
 import { PiBooks } from "react-icons/pi";
 import { BiCategory } from 'react-icons/bi';
 import { BsChevronDown, BsChevronUp } from 'react-icons/bs';
+import { OrderContext } from '../context/OrderContext.jsx';
 
 const Sidebar = () => {
     const [booksDropdownOpen, setBooksDropdownOpen] = useState(false);
     const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
     let { user, setUser, userData, setUserData } = useContext(UserContext);
-
+    let {pendingCount} = useContext(OrderContext)
     const logout = () => {
         localStorage.removeItem("userToken");
         setUser(null);
@@ -22,7 +23,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div className="col-auto col-md-3 col-xl-2 px-sm-2 " style={{ background: '#2b3447' }}>
+        <div className="col-auto col-md-3 col-xl-2 px-sm-2" style={{ background: '#2b3447' }}>
             <div className="sidebarFlex align-items-sm-start px-2 pt-2 text-white min-vh-100 ">
                 <Link to="/" className="d-flex align-items-center pb-3 gap-2 mb-md-0 me-md-auto text-white text-decoration-none LogoDropdown">
                     <img src={Logo}
@@ -55,9 +56,10 @@ const Sidebar = () => {
 
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start align-items-sm-start" id="menu">
                     <li className="nav-item">
-                        <NavLink exact to="/orders" className="nav-link  align-middle text-decoration-none" activeClassName="active">
+                        <NavLink to="/orders" className="nav-link  align-middle text-decoration-none position-relative" activeclassname="active">
                             <FaTruck color='#c1c4c9' fontSize={'1.3em'} />
                             <span className="ms-2 d-sm-inline items-styling">Manage Orders</span>
+                            <span style={{background:'#c1c4c9',paddingRight:5,paddingLeft:4, borderRadius:'50%',fontSize:10,position:'absolute',right:0,color:'#2b3447'}}>{pendingCount}</span>
                         </NavLink>
                     </li>
 
@@ -73,12 +75,12 @@ const Sidebar = () => {
                             <div className={`collapse ${booksDropdownOpen ? 'show' : ''}`} id="booksDropdown">
                                 <ul className="nav flex-column ms-1">
                                     <li>
-                                        <NavLink to="/books" className="nav-link" activeClassName="active">
+                                        <NavLink to="/books" className="nav-link" activeclassname="active">
                                             <span className="d-sm-inline dropDownStyling">Books</span>
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/addbook" className="nav-link" activeClassName="active">
+                                        <NavLink to="/addbook" className="nav-link" activeclassname="active">
                                             <span className="d-sm-inline dropDownStyling">Add Books</span>
                                         </NavLink>
                                     </li>
@@ -99,12 +101,12 @@ const Sidebar = () => {
                             <div className={`collapse ${categoriesDropdownOpen ? 'show' : ''}`} id="navDropdown">
                                 <ul className="nav flex-column g-1 ms-1">
                                     <li>
-                                        <NavLink to="/categories" className="nav-link" activeClassName="active">
+                                        <NavLink to="/categories" className="nav-link" activeclassname="active">
                                             <span className="d-sm-inline dropDownStyling">Categories</span>
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/addCategory" className="nav-link" activeClassName="active">
+                                        <NavLink to="/addCategory" className="nav-link" activeclassname="active">
                                             <span className="d-sm-inline dropDownStyling">Add Categories</span>
                                         </NavLink>
                                     </li>
@@ -114,7 +116,7 @@ const Sidebar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <NavLink to="/users" className="nav-link  align-middle text-decoration-none" activeClassName="active">
+                        <NavLink to="/users" className="nav-link  align-middle text-decoration-none" activeclassname="active">
                             <FaUsers color='#c1c4c9' fontSize={'1.3em'} />
                             <span className="ms-2 d-sm-inline items-styling">Manage Users</span>
                         </NavLink>

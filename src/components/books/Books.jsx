@@ -48,7 +48,8 @@ function Books() {
 
 
   return (
-    <div className='cssFix table-container'>
+    <div className='cssFix table-container' style={{background: 'white',
+    borderRadius: '18px'}}>
       <h2 className='text-uppercase heading'>Books :</h2>
 
 

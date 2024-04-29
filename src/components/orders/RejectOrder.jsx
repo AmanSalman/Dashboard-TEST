@@ -14,7 +14,7 @@ function RejectOrder() {
     const RejectOrder = async () => {
         try {
             setLoading(true);
-            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/order/rejectOrder/${orderId}`,{}, {headers:{Authorization: `Aman__${user}`,}});
+            const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/order/rejectOrder/${orderId}`,{}, {headers:{Authorization: `${user}`,}});
             if (data.message == 'success') {
                 toast.success("Rejected successfully");
             } else if (data.message == "can't reject the order") {
