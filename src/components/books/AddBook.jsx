@@ -207,13 +207,13 @@ const AddBook = () => {
             value:formik.values.price,
             required:true
         },
-        {
-            id:'description',
-            type:'textarea',
-            name:'description',
-            title:'description',
-            value:formik.values.description,
-        },
+        // {
+        //     id:'description',
+        //     type:'textarea',
+        //     name:'description',
+        //     title:'description',
+        //     value:formik.values.description,
+        // },
         {
             id:'publishingHouse',
             type:'text',
@@ -292,4 +292,4 @@ const styles = {
     }
 };
 
-export default AddBook;
+export default AddBook; 

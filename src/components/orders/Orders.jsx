@@ -153,31 +153,49 @@
 // }
 
 // export default Orders;
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import '../CSSFiles/general.css';
 import '../CSSFiles/order.css';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader/Loader.jsx';
 import Accept from '../../assets/accept (2).png';
-import Reject from '../../assets/decline.png';
+import Reject from '../../assets/cross-button.png';
 import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
 import { UserContext } from '../context/User.jsx';
 import { OrderContext } from '../context/OrderContext.jsx';
 
 function Orders() {
-    //const [orders, setOrders] = useState([]);
-    const {orders,error, setError} = useContext(OrderContext);
-    const [isLoading, setIsLoading]= useState(false)
-    const {user} = useContext(UserContext);
+    const { orders, error, setError } = useContext(OrderContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const { user } = useContext(UserContext);
+
+    //pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 6;
+    const LastIndex = currentPage * recordsPerPage;
+    const firstIndex = LastIndex - recordsPerPage;
+    const orderedOrders = [...orders].sort((a, b) => {
+        if (a.status === 'Pending') return -1;
+        if (a.status === 'Accepted' && b.status !== 'Pending') return -1;
+        if (a.status === 'Rejected' && b.status !== 'Pending' && b.status !== 'Accepted') return -1;
+        return 1;
+    });
+    const records = orderedOrders.slice(firstIndex, LastIndex);
+    const npage = Math.ceil(orderedOrders.length / recordsPerPage);
+    const numbers = [...Array(npage + 1).keys()].slice(1);
+
+    const filteredOrders = (status) => {
+        return records?.filter(order => order.status === status);
+    }
 
     if (!orders.length) {
         return <Loader />; // Display loader if orders are being fetched
-      }
+    }
+
     return (
-        <div className='cssFix table-container' style={{background: 'white',
-            borderRadius: '18px'}} >
+        <div className='cssFix table-container' style={{ background: 'white', borderRadius: '18px' }} >
             <h2 className='text-uppercase heading'>Orders :</h2>
 
             {
@@ -187,7 +205,6 @@ function Orders() {
             {
                 !isLoading && !error && (
                     <>
-                        <h3 className='secondary-heading'>Pending Orders :</h3>
                         <table className='generaltable'>
                             <thead>
                                 <tr>
@@ -195,87 +212,87 @@ function Orders() {
                                     <th>Location</th>
                                     <th>Total Price</th>
                                     <th>Status</th>
-                                    <th>Accept</th>
-									<th>Reject</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    orders?.filter(order => order.status === 'Pending').map((order) => (
-                                        <tr key={order._id}>
-                                            <td>{order._id}</td>
-                                            <td>{order.location}</td>
-                                            <td>{order.totalPrice}</td>
-                                            <td style={{ color: 'orange', fontWeight: '600' }}>{order.status}</td>
-                                            <td>
-                                                <Link className='d-flex justify-content-center' to={`/acceptOrder/${order._id}`}>
-                                                    <img src={Accept} alt='Accept' width={"32px"} />
-                                                </Link></td>
-												<td>
-
-                                                <Link className='d-flex justify-content-center' to={`/rejectOrder/${order._id}`}>
-                                                    <img src={Reject} alt='Reject' width={"45px"} />
-                                                </Link>
-												</td>
-                                            
-                                        </tr>
-                                    ))
-                                }
+                                {filteredOrders('Pending').map((order) => (
+                                    <tr key={order._id}>
+                                        <td>{order._id}</td>
+                                        <td>{order.location}</td>
+                                        <td>{order.totalPrice}</td>
+                                        <td style={{ color: 'orange', fontWeight: '600' }}>{order.status}</td>
+                                        <td>
+                                            <Link className='d-flex justify-content-center text-decoration-none' style={{ marginBottom: '.5em' }} to={`/acceptOrder/${order._id}`}>
+                                                <span style={{marginRight:'.5em',color:'green'}}>Accept</span>
+                                                <img src={Accept} alt='Accept' width={""} />
+                                            </Link>
+                                            <Link className='d-flex justify-content-center text-decoration-none' to={`/rejectOrder/${order._id}`}>
+                                                <span style={{marginRight:'.5em',color:'red'}}>Reject</span>
+                                                <img src={Reject} alt='Reject' width={""} />
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {filteredOrders('Accepted').map((order) => (
+                                    <tr key={order._id}>
+                                        <td>{order._id}</td>
+                                        <td>{order.location}</td>
+                                        <td>{order.totalPrice}</td>
+                                        <td style={{ color: 'green', fontWeight: '600' }}>{order.status}</td>
+                                        <td></td>
+                                    </tr>
+                                ))}
+                                {filteredOrders('Rejected').map((order) => (
+                                    <tr key={order._id}>
+                                        <td>{order._id}</td>
+                                        <td>{order.location}</td>
+                                        <td>{order.totalPrice}</td>
+                                        <td style={{ color: 'red', fontWeight: '600' }}>{order.status}</td>
+                                        <td></td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
-
-                        <h3 className='secondary-heading '>Accepted Orders :</h3>
-                        <table className='generaltable'>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Location</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <nav style={{display:'flex', justifyContent:'center' ,alignItems:'center'}}>
+                            <ul className='pagination'>
+                                <li className='page-item'>
+                                    <a href='#' className='page-link' onClick={prePage}> Prev</a>
+                                </li>
                                 {
-                                    orders?.filter(order => order.status === 'Accepted').map((order) => (
-                                        <tr key={order._id}>
-                                            <td>{order._id}</td>
-                                            <td>{order.location}</td>
-                                            <td>{order.totalPrice}</td>
-                                            <td style={{ color: 'green', fontWeight: '600' }}>{order.status}</td>
-                                        </tr>
+                                    numbers.map((n, i) => (
+                                        <li className={`'page-item' ${currentPage === n ? 'active page-item bgPrimary' : 'page-item'}`} key={i}>
+                                            <a href='#' className='page-link' onClick={() => changeCPage(n)}>{n}</a>
+                                        </li>
                                     ))
                                 }
-                            </tbody>
-                        </table>
 
-                        <h3 className='secondary-heading'>Rejected Orders :</h3>
-                        <table className='generaltable'>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Location</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    orders?.filter(order => order.status === 'Rejected').map((order) => (
-                                        <tr key={order._id}>
-                                            <td>{order._id}</td>
-                                            <td>{order.location}</td>
-                                            <td>{order.totalPrice}</td>
-                                            <td style={{ color: 'red', fontWeight: '600' }}>{order.status}</td>
-                                        </tr>
-                                    ))
-                                }
-                            </tbody>
-                        </table>
+                                <li className='page-item'>
+                                    <a href='#' className='page-link' onClick={nextPage}> Next</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </>
                 )
             }
         </div>
     );
+
+    function prePage() {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+
+    function changeCPage(id) {
+        setCurrentPage(id);
+    }
+
+    function nextPage() {
+        if (currentPage !== npage) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
 }
 
 export default Orders;

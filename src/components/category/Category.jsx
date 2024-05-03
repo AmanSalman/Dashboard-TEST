@@ -10,25 +10,37 @@ import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
 
 function Category() {
-  // const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true)
+
  
   const fetchBooks = async () => {
       try {
         const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/book/allbooks`);
         console.log(data);
-        return data.books;
-        // setBooks(response.data.books);
+        // return data.books;
+        setBooks(data.books);
+        setIsLoading(false)
       } catch (error) {
         console.log(error);
+      } finally{
+        setIsLoading(false)
       }
     };
 
-    const {data,isLoading} = useQuery("books", fetchBooks);
-  // useEffect(() => {
-  //   fetchBooks();
-  // }, []);
+    // const {data,isLoading} = useQuery("books", fetchBooks);
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 6;
+  const LastIndex = currentPage * recordsPerPage;
+  const firstIndex = LastIndex - recordsPerPage;
+  const records = books.slice(firstIndex, LastIndex);
+ const npage = Math.ceil(books.length / recordsPerPage);
+ const numbers = [...Array(npage + 1).keys()].slice(1);
   if (isLoading){
     return <Loader/>;
   }
@@ -66,7 +78,7 @@ function Category() {
             </tr>
           </thead>
           <tbody>
-            {data?.map((book,index) => (
+            {records?.map((book,index) => (
               <tr key={book._id}>
                 <td>{index+1}</td>
                 <td>{book.categoryName}</td>
@@ -76,8 +88,44 @@ function Category() {
             ))}
           </tbody>
         </table>
+        <nav style={{display:'flex', justifyContent:'center' ,alignItems:'center'}}>
+                            <ul className='pagination'>
+                                <li className='page-item'>
+                                    <a href='#' className='page-link' onClick={prePage}> Prev</a>
+                                </li>
+                                {
+                                    numbers.map((n, i) => (
+                                        <li className={`'page-item' ${currentPage === n ? 'active page-item bgPrimary' : 'page-item'}`} key={i}>
+                                            <a href='#' className='page-link' onClick={() => changeCPage(n)}>{n}</a>
+                                        </li>
+                                    ))
+                                }
+
+                                <li className='page-item'>
+                                    <a href='#' className='page-link' onClick={nextPage}> Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+
     </div>
   );
+
+
+  function prePage() {
+    if (currentPage !== 1) {
+        setCurrentPage(currentPage - 1);
+    }
+}
+
+function changeCPage(id) {
+    setCurrentPage(id);
+}
+
+function nextPage() {
+    if (currentPage !== npage) {
+        setCurrentPage(currentPage + 1);
+    }
+}
 }
 
 export default Category;

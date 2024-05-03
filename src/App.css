@@ -86,3 +86,14 @@ Link {
 	  background-color: #5f676e !important;
 }
 
+
+.active>.page-link, .page-link.active {
+	background-color: #2b3447 !important;
+    border-color: #4c5975 !important;
+	color: white !important;
+
+}
+
+.page-link {
+	color: #2b3447 !important;
+}
