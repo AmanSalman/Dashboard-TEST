@@ -20,6 +20,8 @@ import AddCategory from './components/category/AddCategory.jsx';
 import Category from './components/category/Category.jsx';
 import Update from './components/books/UpdateBook.jsx';
 import UpdateBook from './components/books/UpdateBook.jsx';
+import DeleteCategory from './components/category/DeleteCategory.jsx';
+import UpdateCategory from './components/category/UpdateCategory.jsx';
 
 
 export default function App() {
@@ -82,6 +84,14 @@ const router = createBrowserRouter([
       {
         path:'/addCategory',
         element:<AddCategory/>
+      },
+      {
+        path:'/deleteCategory/:id',
+        element:<DeleteCategory/>
+      },
+      {
+        path:'/updateCategory/:id',
+        element:<UpdateCategory/>
       },
       {
         path:'/categories',

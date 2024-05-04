@@ -20,9 +20,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <QueryClientProvider client={queryClient}>
         <UserContextProvider>
           <OrderContextProvider>
+            <ToastContainer />
            <App/>
           </OrderContextProvider>
         </UserContextProvider>
-  <ToastContainer/>
+  
   </QueryClientProvider>
 )

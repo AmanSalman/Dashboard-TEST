@@ -10,17 +10,17 @@ import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
 
 function Category() {
-  const [books, setBooks] = useState([]);
+  const [Categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
 
  
-  const fetchBooks = async () => {
+  const fetchCategories = async () => {
       try {
-        const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/book/allbooks`);
+        const {data} = await axios.get(`${import.meta.env.VITE_API_URL2}/category/`);
         console.log(data);
         // return data.books;
-        setBooks(data.books);
+       setCategories(data.Categories);
         setIsLoading(false)
       } catch (error) {
         console.log(error);
@@ -31,33 +31,19 @@ function Category() {
 
     // const {data,isLoading} = useQuery("books", fetchBooks);
   useEffect(() => {
-    fetchBooks();
+    fetchCategories();
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 6;
   const LastIndex = currentPage * recordsPerPage;
   const firstIndex = LastIndex - recordsPerPage;
-  const records = books.slice(firstIndex, LastIndex);
- const npage = Math.ceil(books.length / recordsPerPage);
+  const records = Categories.slice(firstIndex, LastIndex);
+ const npage = Math.ceil(Categories.length / recordsPerPage);
  const numbers = [...Array(npage + 1).keys()].slice(1);
   if (isLoading){
     return <Loader/>;
   }
-  // const DeleteBook = async (BookId) =>{
-  //   try {
-  //     const response = await axios.delete(`${import.meta.env.VITE_API_URL}/book/deletebook/${BookId}`);
-  //     if (response.data.message == 'success') {
-	// 			toast.success(" Book Deleted successfully");
-	// 		} 
-  //     // else if (response.data.message == "can't reject the order") {
-	// 		// 	toast.warn(response.data.message);
-	// 		// }
-	// 	} catch (error) {
-	// 		setError(error.message);
-	// 	}
-  // }
-
 
   return (
     <div className='cssFix table-container' style={{background: 'white',
@@ -78,14 +64,14 @@ function Category() {
             </tr>
           </thead>
           <tbody>
-            {records?.map((book,index) => (
-              <tr key={book._id}>
+            {records?.map((category,index) => 
+              <tr key={category._id}>
                 <td>{index+1}</td>
-                <td>{book.categoryName}</td>
-                <td><Link className='d-flex justify-content-center' to={`/delete/${book._id}`}><img src={Delete} alt='Delete' width={"45px"} /></Link></td>
-             <td><Link to='/Update' className='d-flex justify-content-center'><img src={Update} alt='Update' width={"30px"} /></Link></td>
+                <td>{category.name}</td>
+                <td><Link className='d-flex justify-content-center' to={`/deleteCategory/${category._id}`}><img src={Delete} alt='Delete' width={"45px"} /></Link></td>
+             <td><Link className='d-flex justify-content-center' to={`/updateCategory/${category._id}`}><img src={Update} alt='Update' width={"30px"} /></Link></td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         <nav style={{display:'flex', justifyContent:'center' ,alignItems:'center'}}>
