@@ -26,12 +26,12 @@ import UpdateCategory from './components/category/UpdateCategory.jsx';
 
 export default function App() {
 
-  let {setUser} = useContext(UserContext);
-  useEffect(()=>{
-    if(localStorage.getItem("userToken")!= null){
-      setUser(localStorage.getItem("userToken"))
-    } 
-  },[]);
+  // let {setUser} = useContext(UserContext);
+  // useEffect(()=>{
+  //   if(localStorage.getItem("userToken")!= null){
+  //     setUser(localStorage.getItem("userToken"))
+  //   } 
+  // },[]);
 
 
 const router = createBrowserRouter([
@@ -43,7 +43,11 @@ const router = createBrowserRouter([
     children:[
       {
         path:'/',
-        element:<Home/>
+        element:
+        <ProtectedRoute>
+
+          <Home/>
+        </ProtectedRoute>
       },
       {
         path:'/books',
@@ -90,13 +94,14 @@ const router = createBrowserRouter([
         element:<DeleteCategory/>
       },
       {
-        path:'/updateCategory/:id',
+        path:'/updateCategory/:slug',
         element:<UpdateCategory/>
       },
       {
         path:'/categories',
         element:<Category/>
-      }
+      },
+      
     ]
   },
    {

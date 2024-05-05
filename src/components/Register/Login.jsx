@@ -26,10 +26,10 @@ const Login = () => {
 		console.log(admin)
 		try {
 			setLoading(true);
-			const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signIn`, admin);
+			const {data} = await axios.post(`${import.meta.env.VITE_API_URL2}/auth/login`, admin);
 			if (data.message == 'success') {
-                localStorage.setItem("userToken", `Aman__${data.token}`);
-				setUser(`Aman__${data.token}`);
+                localStorage.setItem("userToken", `${data.token}`);
+				setUser(`${data.token}`);
                 console.log(localStorage.getItem("userToken"))
 				toast.success("Login successfully");
                 resetForm();
@@ -82,6 +82,7 @@ const Login = () => {
 						style={
 							styles.container
 						}
+						className='justify-content-center align-items-center'
 						>
 
 						<input type="email"

@@ -13,7 +13,7 @@ const Register = () => {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const initialValues = {
-		name: '',
+		username: '',
 		phone: '',
 		email: '',
 		password: '',
@@ -25,7 +25,7 @@ const Register = () => {
 		try {
 			setLoading(true);
 			const {data} = await axios.post(`${
-				import.meta.env.VITE_API_URL
+				import.meta.env.VITE_API_URL2
 			}/auth/register`, admin);
 			console.log(data);
 			if (data.message == 'success') {
@@ -74,26 +74,21 @@ const Register = () => {
 					<div className='text-center'>
                         <h2 className='maincolortext'>Register</h2>
                         </div>
-                       <form onSubmit={
-							formik.handleSubmit
-						}
-						style={
-							styles.container
-						}
-						>
+                       <form onSubmit={formik.handleSubmit} style={styles.container} className='justify-content-center align-items-center'>
 						<input type="text"
 							value={
-								formik.values.name
+								formik.values.username
 							}
 							onChange={
 								formik.handleChange
 							}
-							placeholder="name"
+							placeholder="username"
 							style={
 								styles.input
 							}
-							id="name"
-							name="name"/>
+							id="username"
+							name="username"
+							 autoComplete='username'/>
 						<input type="tel"
 							value={
 								formik.values.phone
@@ -106,7 +101,8 @@ const Register = () => {
 								styles.input
 							}
 							id="phone"
-							name="phone"/>
+							name="phone"
+							autoComplete='phone'/>
 						<input type="email"
 							value={
 								formik.values.email
@@ -119,7 +115,8 @@ const Register = () => {
 								styles.input
 							}
 							id="email"
-							name="email"/>
+							name="email"
+							autoComplete='email'/>
 						<input type="password"
 							value={
 								formik.values.publishingHouse
@@ -132,7 +129,9 @@ const Register = () => {
 								styles.input
 							}
 							id="password"
-							name="password"/>
+							name="password"
+							autoComplete='current-password'
+							/>
 							<div className='d-flex'>
 							 <span className='text-black mb-3 me-1'>already have an accout? </span> 
              <Link className='maincolortext' to='/login'>Sign in</Link>

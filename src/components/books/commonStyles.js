@@ -7,6 +7,9 @@ const commonStyles = {
     //   backgroundColor: '#F8FAFD',
       borderRadius: 10,
       flexGrow:1,
+      width: '100%',
+    // justifyContent: 'center',
+    // alignItems: 'center'
       
     },
     input: {
@@ -24,13 +27,13 @@ const commonStyles = {
       height: 'auto',
       backgroundColor: '#2b3447',
       border: 'none',
-      borderRadius: 5,
+      borderRadius: 9,
       cursor: 'pointer',
       color:'#c1c4c9',
       fontWeight:400,
       width:'fit-content',
       padding:10,
-      marginLeft:10
+      marginLeft:5
     },
   };
   
