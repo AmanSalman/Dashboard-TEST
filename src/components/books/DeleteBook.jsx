@@ -6,24 +6,32 @@ import { toast } from 'react-toastify'; // Assuming you're using react-toastify 
 
 function DeleteBook() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { id } = useParams();
-  const navigate = useNavigate(); // Rename Navigate to navigate
+  const navigate = useNavigate();
   
   const deleteBook = async () => {
     try {
-      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/book/deletebook/${id}`);
-      if (response.data.message === 'success') {
+      setLoading(true);
+      const {data} = await axios.delete(`${import.meta.env.VITE_API_URL2}/book/${id}`);
+      console.log(data);
+      if (data.message === 'success') {
         toast.success("Book Deleted successfully");
-      } else if (response.data.message === "can't reject the order") {
-        toast.warn(response.data.message);
       }
       setLoading(false);
     } catch (error) {
-      setError(error.message);
+      const {response} = error;
+      if(response){
+        toast.error(response.data.message);
+      } else{
+        toast.error(error.message);
+      }
+
+      setLoading(false);
+    } finally{
+      
       setLoading(false);
     }
-    navigate('/books');
+   // navigate('/books');
   };
 
   useEffect(() => {

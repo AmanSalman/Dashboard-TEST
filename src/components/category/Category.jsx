@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../CSSFiles/general.css';
 import { Link } from 'react-router-dom';
@@ -8,17 +8,19 @@ import Delete from '../../assets/decline.png';
 import Update from '../../assets/pen.png'
 import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
+import { UserContext } from '../context/User.jsx';
+import Error from '../shared/Error.jsx';
 
 function Category() {
   const [Categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const {token} = useContext(UserContext)
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL2}/category/`);
-      console.log(data);
-      // return data.books;
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL2}/category/`,
+       {headers:{Authorization: `AmanGRAD__${token}`}}
+      );
       setCategories(data.Categories);
       setIsLoading(false)
     } catch (error) {
@@ -51,8 +53,8 @@ function Category() {
     }}>
       <h2 className='text-uppercase heading'>Categories :</h2>
 
-      {error && <p>Error: {error}</p>}
-
+      {error != null? <Error/>: <>
+      
       <table className="generaltable">
         <thead>
           <tr>
@@ -102,6 +104,9 @@ function Category() {
           </li>
         </ul>
       </nav>
+      </>}
+
+   
     </div>
   );
 

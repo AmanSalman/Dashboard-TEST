@@ -1,27 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../CSSFiles/general.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader.jsx';
 import '../CSSFiles/order.css';
 import Delete from '../../assets/decline.png';
 import Update from '../../assets/pen.png'
-import { toast } from 'react-toastify';
-import { useQuery } from 'react-query';
 import UpdateBook from './UpdateBook.jsx';
-
+import { UserContext } from '../context/User.jsx';
+import Error from './../shared/Error';
 function Books() {
   const [error, setError] = useState(null);
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
+  const {token} = useContext(UserContext);
+
   const fetchBooks = async () => {
       try {
-        const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/book/allbooks`);
-        setBooks(data.books);
-        console.log(data.books)
+        setIsLoading(true);
+        const {data} = await axios.get(`${import.meta.env.VITE_API_URL2}/book/`, 
+        {headers:{Authorization: `AmanGRAD__${token}`}}
+        );
+        setBooks(data.Books);
+        console.log(data.Books)
         setIsLoading(false)
       } catch (error) {
-        console.log(error);
+        const {response} = error;
+        if(response){
+          setError(response.data.message);
+        } else {
+          setError(error.message)
+        }
+        setIsLoading(false);
       }finally{
         setIsLoading(false)
       }
@@ -29,7 +40,7 @@ function Books() {
 
      //pagination
      const [currentPage, setCurrentPage] = useState(1);
-     const recordsPerPage = 6;
+     const recordsPerPage = 4;
      const LastIndex = currentPage * recordsPerPage;
      const firstIndex = LastIndex - recordsPerPage;
      const records = books.slice(firstIndex, LastIndex);
@@ -50,7 +61,7 @@ function Books() {
   //   try {
   //     const response = await axios.delete(`${import.meta.env.VITE_API_URL}/book/deletebook/${BookId}`);
   //     if (response.data.message == 'success')import Books from './Books';
- 
+
 	// 			toast.success(" Book Deleted successfully");
 	// 		} 
   //     // else if (response.data.message == "can't reject the order") {
@@ -67,18 +78,19 @@ function Books() {
     borderRadius: '18px'}}>
       <h2 className='text-uppercase heading'>Books :</h2>
 
-
-      {error && <p>Error: {error}</p>}
-
-
+{
+  error != null? <Error message={error}/>:
+  <>
         <table className="generaltable">
           <thead>
             <tr>
-              <th>Category </th>
+              <th>Isbn</th>
               <th>Title</th>
+              <th>Category </th>
               <th>description</th>
               <th>publishingHouse</th>
               <th>Price</th>
+              <th>Book image</th>
               <th >Delete</th>
               <th>Update</th>
             </tr>
@@ -86,13 +98,15 @@ function Books() {
           <tbody>
             {records?.map((book) => (
               <tr key={book._id}>
-                <td>{book.categoryName}</td>
+                <td>{book.isbn}</td>
                 <td>{book.title}</td>
+                <td>{book.categoryName}</td>
                 <td>{book.description}</td>
                 <td>{book.publishingHouse}</td>
                 <td>{book.price}</td>
+                <td><img src={book.image.secure_url} className=' img-fluid' style={{ borderRadius: '50%', width: 'fit-content', height: '5em' }} alt='Book image'/></td>
                 <td><Link className='d-flex justify-content-center' to={`/delete/${book._id}`}><img src={Delete} alt='Delete' width={"45px"} /></Link></td>
-             <td><Link to={`/Update/${book._id} `} onClick={()=>UpdateBook(book)} className='d-flex justify-content-center'><img src={Update} alt='Update' width={"30px"} /></Link></td>
+             <td><Link to={`/Update/${book._id} `} className='d-flex justify-content-center'><img src={Update} alt='Update' width={"30px"} /></Link></td>
               </tr>
             ))}
           </tbody>
@@ -116,6 +130,12 @@ function Books() {
                                 </li>
                             </ul>
                         </nav>
+  
+  </>
+
+}
+      
+
     </div>
   );
 

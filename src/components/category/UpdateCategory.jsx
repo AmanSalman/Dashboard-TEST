@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import commonStyles from '../books/commonStyles.js';
 import '../CSSFiles/general.css';
 import { useFormik } from 'formik';
@@ -8,13 +8,14 @@ import { toast } from 'react-toastify';
 import Input from '../shared/Input.jsx';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { updateCategorySchema } from '../../validation/CategoryValidation.js';
+import { UserContext } from '../context/User.jsx';
 
 const UpdateCategory = () => {
     const [loading, setLoading] = useState(false);
-    // const { id } = useParams();
     const location = useLocation();
     const categoryId = location.state?.id;
     const navigate = useNavigate();
+    const {token} = useContext(UserContext);
     const initialValues = {
         name: '',
         status: '',
@@ -46,7 +47,7 @@ const UpdateCategory = () => {
             setLoading(true);
             const { data } = await axios.patch(
                 `${import.meta.env.VITE_API_URL2}/category/${categoryId}`,
-                formData
+                formData, {headers:{Authorization: `AmanGRAD__${token}`}} 
             );
 
             if (data.message === 'success') {

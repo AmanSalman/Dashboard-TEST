@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../CSSFiles/general.css';
 import commonStyles from '../books/commonStyles.js';
 import axios from 'axios';
@@ -7,18 +7,18 @@ import Loader from '../Loader/Loader.jsx';
 import Input from '../shared/Input.jsx';
 import { toast } from 'react-toastify';
 import { categorySchema } from '../../validation/CategoryValidation.js'
+import { UserContext } from '../context/User.jsx';
 
 function AddCategory() {
     const [loading, setLoading] = useState(false);
-
+    const {token} = useContext(UserContext);
     const initialValues = {
         name: '',
-        image: '', // Change to null as default value
+        image: '', 
     };
 
     const handelFieldChange = (event) => {
         formik.setFieldValue('image', event.target.files[0]);
-        console.log(event.target.files[0]);
     };
 
     const onSubmit = async (values, { resetForm }) => {
@@ -27,21 +27,16 @@ function AddCategory() {
             const formData = new FormData();
             formData.append("name", values.name);
             formData.append("image", values.image);
-            
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL2}/category/`, formData);
-            console.log(data)
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL2}/category/`, formData, {headers:{Authorization: `AmanGRAD__${token}`}});
+            console.log(data);
             if (data.message === 'success') {
                 toast.success("Added successfully");
                 resetForm();
             }
         } catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message);
-            } else if (error.request) {
-                toast.error("No Response - Server might be down");
-            } else {
-                toast.error("An Error Occurred - Please try again later");
-            }
+            const {response} = error;
+            toast.error(response.data.message);
+            console.log(error.response)
         } finally {
             setLoading(false);
         }
@@ -50,7 +45,7 @@ function AddCategory() {
     const formik = useFormik({
         initialValues,
         onSubmit,
-        validationSchema:categorySchema,
+        validationSchema:categorySchema ,
         validateOnChange: false, // Only validate on blur or submit
         validateOnBlur: false
     });

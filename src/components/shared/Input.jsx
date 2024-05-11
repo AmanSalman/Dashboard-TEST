@@ -4,7 +4,7 @@ import './File.css'
 
 export default function Input({ id, title, type, name, value, onChange, onBlur, errors, required, className }) {
     return (
-        <>
+        <div className='d-flex flex-column w-100'>
             <label htmlFor={id} className="form-label">
                 {title}
                 {required && <span style={styles.requiredStar}>*</span>}
@@ -36,7 +36,7 @@ export default function Input({ id, title, type, name, value, onChange, onBlur, 
                 />
             )}
             {errors[name] && <p className='text-danger'>{errors[name]}</p>}
-        </>
+        </div>
     );
 }
 

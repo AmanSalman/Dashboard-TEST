@@ -3,7 +3,7 @@ import './App.css';
 import Root from './components/routes/Root.jsx';
 import Books from './components/books/Books.jsx'; 
 import Orders from './components/orders/Orders.jsx'
-import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import "./index.css";
 import DeleteBook from './components/books/DeleteBook.jsx';
 import AddBook from './components/books/AddBook.jsx';
@@ -14,24 +14,19 @@ import Profile from './components/profile/Profile.jsx';
 import Register from './components/Register/Register.jsx'
 import Login from './components/Register/Login.jsx';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
-import UserContextProvider, { UserContext } from './components/context/User.jsx';
 import User from './components/users/User.jsx';
 import AddCategory from './components/category/AddCategory.jsx';
 import Category from './components/category/Category.jsx';
-import Update from './components/books/UpdateBook.jsx';
 import UpdateBook from './components/books/UpdateBook.jsx';
 import DeleteCategory from './components/category/DeleteCategory.jsx';
 import UpdateCategory from './components/category/UpdateCategory.jsx';
+import ForgetPassword from './components/Register/ForgetPassword.jsx';
+import DisableUser from './components/users/DisableUser.jsx';
+import ActivateUser from './components/users/ActivateUser.jsx';
+
 
 
 export default function App() {
-
-  // let {setUser} = useContext(UserContext);
-  // useEffect(()=>{
-  //   if(localStorage.getItem("userToken")!= null){
-  //     setUser(localStorage.getItem("userToken"))
-  //   } 
-  // },[]);
 
 
 const router = createBrowserRouter([
@@ -43,11 +38,7 @@ const router = createBrowserRouter([
     children:[
       {
         path:'/',
-        element:
-        <ProtectedRoute>
-
-          <Home/>
-        </ProtectedRoute>
+        element:<Home/>
       },
       {
         path:'/books',
@@ -86,6 +77,14 @@ const router = createBrowserRouter([
         element:<User/>
       },
       {
+        path:'/users/disable/:id',
+        element:<DisableUser/>
+      },
+      {
+        path:'/users/Activate/:id',
+        element:<ActivateUser/>
+      },
+      {
         path:'/addCategory',
         element:<AddCategory/>
       },
@@ -100,8 +99,7 @@ const router = createBrowserRouter([
       {
         path:'/categories',
         element:<Category/>
-      },
-      
+      }
     ]
   },
    {
@@ -111,6 +109,10 @@ const router = createBrowserRouter([
       {
         path:'/login',
         element:<Login/>
+      },
+      {
+        path:'/forgotPassword',
+        element:<ForgetPassword/>
       }
 ]);
   return (

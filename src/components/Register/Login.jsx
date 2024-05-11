@@ -13,8 +13,8 @@ import { UserContext } from '../context/User.jsx';
 const Login = () => {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-    let {user,setUser} = useContext(UserContext);
-    if(user){
+    let {token,setToken,isLoading,setIsLoading} = useContext(UserContext);
+    if(token){
         navigate(-1);
     }
 	const initialValues = {
@@ -27,10 +27,10 @@ const Login = () => {
 		try {
 			setLoading(true);
 			const {data} = await axios.post(`${import.meta.env.VITE_API_URL2}/auth/login`, admin);
+			console.log(data);
 			if (data.message == 'success') {
                 localStorage.setItem("userToken", `${data.token}`);
-				setUser(`${data.token}`);
-                console.log(localStorage.getItem("userToken"))
+				setToken(`${data.token}`);
 				toast.success("Login successfully");
                 resetForm();
 				navigate('/');
@@ -51,7 +51,7 @@ const Login = () => {
 			loading ? (
 				<Loader/>) : <>
 
-					<div className='d-flex justify-content-center align-items-center vh-100 flex-item-registration flex-wrap' style={{backgroundColor:'antiquewhite'}}>
+					<div className='d-flex justify-content-center align-items-center vh-100 flex-item-registration flex-wrap' style={{backgroundColor:'#2b3447'}}>
 
 						<img src={Logo}
 							alt='logo'
@@ -82,8 +82,7 @@ const Login = () => {
 						style={
 							styles.container
 						}
-						className='justify-content-center align-items-center'
-						>
+						className=' align-items-center justify-content-center'>
 
 						<input type="email"
 							value={
@@ -114,9 +113,9 @@ const Login = () => {
                             <div className='d-flex flex-column align-items-center'>
                                 <div className='d-flex'>
              <span className='text-black me-1'>You don't have an accout?  </span> 
-             <Link className='maincolortext' to='/register'>Create One.</Link>
+             <Link className='pinkMain' to='/register'>Create One.</Link>
                                 </div>
-             <Link className='maincolortext mb-3' to='/register'>Forget Password?</Link>
+             <Link className='pinkMain mb-3' to='/forgotPassword'>Forget Password?</Link>
 
                             </div>
 						<button type="submit"

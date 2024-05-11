@@ -1,24 +1,24 @@
 import React, { useState, useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
 import '../CSSFiles/SideBar.css';
 import '../../App.css';
-import { UserContext } from '../context/User.jsx';
 import { FaTruck, FaUsers } from "react-icons/fa";
 import { PiBooks } from "react-icons/pi";
 import { BiCategory } from 'react-icons/bi';
 import { BsChevronDown, BsChevronUp } from 'react-icons/bs';
 import { OrderContext } from '../context/OrderContext.jsx';
+import { UserContext } from '../context/User.jsx';
 
 const Sidebar = () => {
     const [booksDropdownOpen, setBooksDropdownOpen] = useState(false);
     const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
-    let { user, setUser, userData, setUserData } = useContext(UserContext);
+    let { setToken } = useContext(UserContext);
     let {pendingCount} = useContext(OrderContext)
+    const navigate = useNavigate();
     const logout = () => {
-        localStorage.removeItem("userToken");
-        setUser(null);
-        setUserData(null);
+        localStorage.removeItem( "userToken");
+        setToken(null);
         navigate('/login');
     }
 

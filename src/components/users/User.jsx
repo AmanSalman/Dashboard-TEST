@@ -1,32 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import Loader from '../Loader/Loader.jsx';
-import { UserContext } from '../context/User.jsx';
 import '../CSSFiles/general.css';
 import '../CSSFiles/order.css';
 import { Link } from 'react-router-dom';
 import Accept from '../../assets/accept (2).png';
 import Reject from '../../assets/decline.png';
+import { UserContext } from '../context/User.jsx';
+import Loader from '../Loader/Loader.jsx';
+import Error from '../shared/Error.jsx';
 
 function User() {
   const [error, setError] = useState(null);
   const [Users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const {user} = useContext(UserContext);
+  const {token} = useContext(UserContext);
+  
   const fetchUsers = async () => {
       try {
-        const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/user/users`,{headers:{Authorization: `${user}`}} );
+        setIsLoading(true);
+        const {data} = await axios.get(`${import.meta.env.VITE_API_URL2}/user/`,
+        {headers:{Authorization: `AmanGRAD__${token}`}} 
+    );
         setUsers(data.users);
-        console.log(data.users)
         setIsLoading(false)
       } catch (error) {
-        console.log(error);
+        setIsLoading(false)
+        const {response} = error;
+        setError(response.data.message);
       } finally{
         setIsLoading(false)
       }
     };
-
 
    //pagination
    const [currentPage, setCurrentPage] = useState(1);
@@ -41,21 +46,15 @@ function User() {
     fetchUsers();
   },[])
 
+  if(isLoading)return <Loader />;
+
     return (
         <div className='cssFix table-container ' style={{background: 'white',
         borderRadius: '18px'}}>
             <h2 className='text-uppercase heading'>Users :</h2>
 
-            {
-                isLoading && <Loader />
-            }
 
-            {
-                error && <p>Error: {error}</p>
-            }
-
-            {
-                !isLoading && !error && (
+            {error != null? <Error message={error}/>:
                     <>
                         <table className='generaltable'>
                             <thead>
@@ -66,8 +65,8 @@ function User() {
                                     <th>Status</th>
                                     <th>Role</th>
                                     <th>Email</th>
-                                    <th>Activate</th>
 									<th>Disable</th>
+                                    <th>Activate</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,20 +74,32 @@ function User() {
                                  records?.map((user, index) => (
                                     <tr key={user._id}>
                                         <td>{firstIndex + index + 1}</td> 
-                                        <td>{user.name}</td>
+                                        <td>{user.username}</td>
                                         <td>{user.phone}</td>
                                         <td style={{ color: user.status === 'Activated' ? 'green' : 'red' }}>{user.status}</td>
                                         <td>{user.role}</td>
                                         <td>{user.email}</td>
                                         <td>
-                                            <Link className='d-flex justify-content-center' to={`/acceptOrder/${user._id}`}>
-                                                <img src={Accept} alt='Accept' width={"32px"} />
-                                            </Link>
+                                            {
+                                              user.status !== 'Disabled'? 
+                                              <>
+                                               <Link className='d-flex justify-content-center' to={`/users/disable/${user._id}`}>
+                                              <img src={Reject} alt='Reject' width={"45px"} />
+                                              </Link>
+                                              </>
+                                              : null
+                                            }
+                                            
                                         </td>
                                         <td>
-                                            <Link className='d-flex justify-content-center' to={`/rejectOrder/${user._id}`}>
-                                                <img src={Reject} alt='Reject' width={"45px"} />
+                                            {
+                                                user.status !== 'Activated'? <>
+                                                 <Link className='d-flex justify-content-center' to={`/users/Activate/${user._id}`}>
+                                                <img src={Accept} alt='Activate' width={"32px"} />
                                             </Link>
+                                                </> : null
+                                            }
+                                           
                                         </td>
                                     </tr>
                                 ))
@@ -115,12 +126,9 @@ function User() {
                                 </li>
                             </ul>
                         </nav>
-
-
-                    
                     </>
-                )
-            }
+}
+   
         </div>
     );
     function prePage() {
@@ -145,3 +153,4 @@ function User() {
 }
 
 export default User;
+ 

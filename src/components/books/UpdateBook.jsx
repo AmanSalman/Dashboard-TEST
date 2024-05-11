@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import Input from '../shared/Input.jsx';
 import { useParams } from 'react-router-dom';
 
-const UpdateBook = ({ bookToUpdate }) => {
+const UpdateBook = () => {
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
     const handelFieldChange = (event) => {
@@ -42,12 +42,12 @@ const UpdateBook = ({ bookToUpdate }) => {
 
     // Check if bookToUpdate exists before accessing its properties
     const initialValues = {
-        isbn: bookToUpdate && bookToUpdate.isbn ? bookToUpdate.isbn : '',
-        title: bookToUpdate && bookToUpdate.title ? bookToUpdate.title : '',
-        price: bookToUpdate && bookToUpdate.price ? bookToUpdate.price : 0,
-        description: bookToUpdate && bookToUpdate.description ? bookToUpdate.description : '',
-        publishingHouse: bookToUpdate && bookToUpdate.publishingHouse ? bookToUpdate.publishingHouse : '',
-        categoryName: bookToUpdate && bookToUpdate.categoryName ? bookToUpdate.categoryName : '',
+        isbn: '',
+        title: '',
+        price: 0,
+        description: '',
+        publishingHouse: '',
+        categoryName: '',
         image: '',
     };
 

@@ -124,7 +124,7 @@
 // };
 
 // export default AddBook;
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import commonStyles from './commonStyles.js';
 import '../CSSFiles/general.css';
 import { useFormik } from 'formik';
@@ -132,9 +132,11 @@ import axios from 'axios';
 import Loader from '../Loader/Loader.jsx';
 import { toast } from 'react-toastify';
 import Input from '../shared/Input.jsx';
+import { UserContext } from '../context/User.jsx';
 
 const AddBook = () => {
     const [loading, setLoading] = useState(false);
+    const {token} = useContext(UserContext)
     const initialValues = {
         isbn: '',
         title: '',
@@ -150,7 +152,6 @@ const AddBook = () => {
     }
 
     const onSubmit = async (book, { resetForm }) => {
-        console.log(book);
         try {
             const formData = new FormData();
          formData.append("isbn",book.isbn);
@@ -162,8 +163,9 @@ const AddBook = () => {
          formData.append("categoryName",book.categoryName);
 
             setLoading(true);
-            const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/book/add`, formData);
-            console.log(data);
+            const {data} = await axios.post(`${import.meta.env.VITE_API_URL2}/book/`, formData, 
+            {headers:{Authorization: `AmanGRAD__${token}`}}
+        );
             if (data.message == 'success') {
 				toast.success("Added successfully");
                 resetForm();
@@ -172,7 +174,10 @@ const AddBook = () => {
             setLoading(false)
         } catch (error) {
             setLoading(false)
-            console.log(error);
+            const {response} = error;
+            toast.error(response.data.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -249,7 +254,7 @@ const AddBook = () => {
       title={input.title}
        value={input.value}  
        key={index}
-     onChange={formik.handleChange} 
+     onChange={input.onChange || formik.handleChange} 
      errors={formik.errors}
      onBlur={formik.handleBlur} 
      touched={formik.touched}
@@ -258,13 +263,17 @@ const AddBook = () => {
      />
     )
 
+    if(loading){
+        return <Loader/>
+    }
+
     return (
         <div className='cssFix w-100' style={{background: 'white',
         borderRadius: '18px'}}>
-            {loading? (<Loader />) :
+
             <>
             <h2 className='text-uppercase heading'>ADD Book :</h2>
-            <form onSubmit={formik.handleSubmit} style={styles.container}>
+            <form onSubmit={formik.handleSubmit} style={styles.container} encType='multipart/form-data'>
                 {renderInputs}
                 <textarea
                     value={formik.values.description}
@@ -277,7 +286,7 @@ const AddBook = () => {
                 <button type="submit" style={styles.button} disabled={!formik.isValid}>Add Book</button>
             </form>
             </>
-}
+
         </div>
     );
 };
